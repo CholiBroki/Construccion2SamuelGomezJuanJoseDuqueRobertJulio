@@ -7,10 +7,10 @@ import app.domain.repository.OrderRepository;
 
 public class DeleteOrder {
 	
-	private final OrderRepository orderRepository;
+	private final OrderRepository OrderRepository;
 	
     public DeleteOrder(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+        this.OrderRepository = orderRepository;
     }
 	
 	public List<Order>DeleteOrder(Order deleteOrder){

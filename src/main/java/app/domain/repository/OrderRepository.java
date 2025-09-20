@@ -10,4 +10,5 @@ public interface OrderRepository {
     void delete(Id orderId);
     Optional<Order> findById(Id orderId);
     List<Order> findByPatientId(Id patientId);
+    public void createOrder(Order order);
 }

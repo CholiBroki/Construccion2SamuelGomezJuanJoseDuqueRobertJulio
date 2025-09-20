@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class Order {
     private final Id id;
     private final Id patientId;
-    private final String type; // "MEDICAMENTO", "PROCEDIMIENTO", "AYUDA_DIAGNOSTICA"
+    private final String type; 
     private final String name;
     private final double cost;
     private final String details;
