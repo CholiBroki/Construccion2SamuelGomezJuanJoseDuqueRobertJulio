@@ -1,5 +1,6 @@
 package app.domain.model;
 
+import app.domain.Enum.Role;
 import app.domain.valueobject.*;
 
 public class User {

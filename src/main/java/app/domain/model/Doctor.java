@@ -1,5 +1,7 @@
 package app.domain.model;
 
+import app.domain.Enum.Role;
+
 public class Doctor {
 	private long id;
 	private String nombre;

@@ -1,5 +1,7 @@
 package app.domain.model;
 
+import app.domain.Enum.Role;
+
 public class Nurse {
 	private Role role;
 	private String name;
