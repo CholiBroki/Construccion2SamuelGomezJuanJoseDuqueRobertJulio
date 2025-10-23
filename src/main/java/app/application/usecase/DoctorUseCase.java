@@ -2,6 +2,7 @@ package app.application.usecase;
 
 import java.util.List;
 
+import app.domain.model.Doctor;
 import app.domain.model.MedicalRecord;
 import app.domain.model.Patient;
 import app.domain.repository.DoctorRepository;
@@ -28,6 +29,26 @@ public class DoctorUseCase {
 	}
 	public List<Patient>searchPatientById(DoctorService searchPatient){
 		return (List<Patient>) searchPatient;
+	}
+	public void deleteDoctor(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+	public Doctor updateDoctor(Long id, Doctor doctor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Doctor createDoctor(Doctor doctor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Doctor getDoctorById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<Doctor> getAllDoctors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

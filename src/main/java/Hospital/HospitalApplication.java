@@ -1,15 +1,16 @@
 package Hospital;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import app.adapter.in.user.CreateRole;
 
-import app.adapter.in.user.Role;
-
-import org.springframework.boot.CommandLineRunner;
-
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"Hospital", "app"})
 public class HospitalApplication implements CommandLineRunner {
+
+    @Autowired
+    private CreateRole createRole;
 
     public static void main(String[] args) {
         SpringApplication.run(HospitalApplication.class, args);
@@ -17,9 +18,7 @@ public class HospitalApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("=== Bienvenido al Sistema Hospitalario ===");
-
-        Role role = new Role();
-        role.menu();  
+        System.out.println("Bienvenido al Sistema Hospitalario");
+        createRole.session();
     }
 }

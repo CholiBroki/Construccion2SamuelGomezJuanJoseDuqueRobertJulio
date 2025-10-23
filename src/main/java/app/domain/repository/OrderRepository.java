@@ -11,4 +11,6 @@ public interface OrderRepository {
     Optional<Order> findById(Id orderId);
     List<Order> findByPatientId(Id patientId);
     public void createOrder(Order order);
+	void deleteOrder(Id orderId);
+	void saveOrder(Order order);
 }

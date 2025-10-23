@@ -13,13 +13,13 @@ import app.domain.valueobject.Id;
 public class OrderAdapter implements OrderRepository{
 
 	@Override
-	public void save(Order order) {
+	public void saveOrder(Order order) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete(Id orderId) {
+	public void deleteOrder(Id orderId) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -38,6 +38,18 @@ public class OrderAdapter implements OrderRepository{
 
 	@Override
 	public void createOrder(Order order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void save(Order order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Id orderId) {
 		// TODO Auto-generated method stub
 		
 	}

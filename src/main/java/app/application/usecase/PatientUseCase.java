@@ -10,7 +10,8 @@ public class PatientUseCase {
 	
 	private PatientRepository patientRepository;
 	
-	public void createPatient(Patient patient) {
+	public Patient createPatient(Patient patient) {
+		return patient;
 		
 	}
     public void deletePatient(Id patientId) {
@@ -18,6 +19,22 @@ public class PatientUseCase {
     }
     public List<Patient> updatePatient(Id patientId, Patient updatedPatient) {
 		return null;
+	}
+	public List<Patient> getAllPatients() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Patient getPatientById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Patient updatePatient(Long id, Patient patient) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void deletePatient(Long id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

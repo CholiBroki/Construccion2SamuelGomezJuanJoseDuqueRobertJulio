@@ -21,4 +21,29 @@ public class HumanResourcesUseCase {
 		return (List<HumanResources>) updateEmployee;
 	}
 
+	public List<HumanResources> getAllHumanResources() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public HumanResources getHumanResourceById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public HumanResources createHumanResource(HumanResources humanResources) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public HumanResources updateHumanResource(Long id, HumanResources humanResources) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void deleteHumanResource(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,30 +1,28 @@
 package app.application.usecase;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import app.domain.model.Staff;
 import app.domain.model.User;
 import app.domain.Enum.Role;
 import app.domain.repository.StaffRepository;
+import app.domain.service.UserManagementService;
 
+@Service
 public class StaffUseCase {
 	
-	private StaffRepository staffRepository;
+	@Autowired
+	private UserManagementService userManagementService;
 	
-    void createStaff(Staff staff) {
-    	
-    }
-    public void assignRoleToStaff(Long staffId, Role role) {
-    	
-	}
-	public void createdoctor(User user) {
-
-		
-	}
-	public void createNurse(User user) {
-		
-		
-	
-		
+	public void CreateDoctor(User user) throws Exception {
+		user.setRole(Role.DOCTOR);
+		userManagementService.create(user);
 	}
 	
+	public void createNurse(User user) throws Exception {
+		user.setRole(Role.NURSE);
+		userManagementService.create(user);
+	}
 
 }
