@@ -26,8 +26,8 @@ public class UserAdapter {
         return userRepository.findById(id);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(User user) {
+        return userRepository.findByUsername(user);
     }
 
     public List<User> findAll() {

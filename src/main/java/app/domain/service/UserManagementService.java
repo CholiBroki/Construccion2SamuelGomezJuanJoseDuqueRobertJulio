@@ -22,7 +22,7 @@ public class UserManagementService {
         return userService.findById(id);
     }
 
-    public Optional<User> buscarPorUsername(String username) {
+    public User buscarPorUsername(String username) {
         return userService.findByUsername(username);
     }
 

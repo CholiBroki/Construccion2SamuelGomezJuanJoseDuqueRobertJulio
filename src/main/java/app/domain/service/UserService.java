@@ -22,7 +22,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -38,4 +38,10 @@ public class UserService {
         }
         return false;
     }
+
+
+ public void create(User user) {
+		// TODO Auto-generated method stub
+		
+	}
 }

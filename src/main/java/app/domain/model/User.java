@@ -37,4 +37,14 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+	public void setDocument(String validateDocument) {
+		// TODO Auto-generated method stub
+		
+	}
+	public static boolean isPresent() {
+		// TODO Auto-generated method stub
+		return false;
+	
 }
+	
+	}
