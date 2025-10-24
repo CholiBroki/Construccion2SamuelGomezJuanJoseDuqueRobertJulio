@@ -1,34 +1,36 @@
 package app.domain.service;
 
+import app.domain.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import app.domain.model.User;
-import app.domain.Enum.Role;
-import app.domain.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserManagementService {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserManagementService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private UserService userService;
+
+    public User crearUsuario(User user) {
+        return userService.save(user);
     }
 
-    public void create(User user) throws Exception {
-        // ✅ Verifica si ya existe un usuario con la misma cédula (ID)
-        if (userRepository.findById(user.getId()).isPresent()) {
-            throw new Exception("Error: ya existe una persona registrada con esa cédula");
-        }
+    public Optional<User> obtenerUsuarioPorId(long id) {
+        return userService.findById(id);
+    }
 
-        // ✅ Verifica si ya existe un usuario con el mismo nombre de usuario
-        if (!user.getRole().equals(Role.OWNER) &&
-            userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new Exception("Error: ya existe una persona registrada con ese nombre de usuario");
-        }
+    public Optional<User> buscarPorUsername(String username) {
+        return userService.findByUsername(username);
+    }
 
-        // ✅ Guarda el nuevo usuario
-        userRepository.save(user);
+    public List<User> listarUsuarios() {
+        return userService.findAll();
+    }
+
+    public boolean eliminarUsuario(long id) {
+        return userService.delete(id);
     }
 }

@@ -13,15 +13,15 @@ import app.domain.model.User;
 @Controller
 public class CreateRole {
 
-    public static final String MENU = """
-       
+    private static final String MENU = """
+        
         Ingrese una de las opciones:
         1. Crear Doctor
         2. Crear Enfermera
         3. Salir
         """;
 
-    public static Scanner reader = new Scanner(System.in);
+    private static final Scanner reader = new Scanner(System.in);
 
     @Autowired
     private StaffUseCase staffUseCase;
@@ -30,28 +30,28 @@ public class CreateRole {
     private UserBuilder userBuilder;
 
     @Autowired
-    private UserValidator validator; 
+    private UserValidator validator;
 
     public void session() {
-        boolean session = true;
-        while (session) {
-            session = menu();
+        boolean sessionActiva = true;
+        while (sessionActiva) {
+            sessionActiva = mostrarMenu();
         }
     }
 
-    public boolean menu() {
+    private boolean mostrarMenu() {
         try {
             System.out.println(MENU);
-            String option = reader.nextLine();
-            switch (option) {
+            String opcion = reader.nextLine();
+            switch (opcion) {
                 case "1" -> {
-                    User user = readInfoFromUser();
-                    staffUseCase.CreateDoctor(user);
+                    User user = leerDatosUsuario();
+                    staffUseCase.crearDoctor(user);
                     return true;
                 }
                 case "2" -> {
-                    User user = readInfoFromUser();
-                    staffUseCase.createNurse(user);
+                    User user = leerDatosUsuario();
+                    staffUseCase.crearEnfermero(user);
                     return true;
                 }
                 case "3" -> {
@@ -64,24 +64,28 @@ public class CreateRole {
                 }
             }
         } catch (Exception e) {
-            System.out.println(" Error: " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
             return true;
         }
     }
 
-    public User readInfoFromUser() throws Exception {
-        System.out.println("Ingrese el nombre de la persona");
-        String name = validator.nameValidator(reader.nextLine()); 
-        System.out.println("Ingrese la cédula de la persona");
-        String document = validator.validateDocument(reader.nextLine()); 
-        System.out.println("Ingrese el nombre de usuario");
-        String userName = validator.stringValidator("El nombre de usuario", reader.nextLine());
-        System.out.println("Ingrese la contraseña");
-        String password = validator.stringValidator("La contraseña", reader.nextLine());
-        System.out.println("Ingrese la edad de la persona");
-        String ageInput = reader.nextLine();
-        int age = validator.ageValidator(ageInput);
+    private User leerDatosUsuario() throws Exception {
+        System.out.println("Ingrese el nombre de la persona:");
+        String nombre = validator.nameValidator(reader.nextLine());
 
-        return userBuilder.build(name, document, String.valueOf(age), userName, password);
+        System.out.println("Ingrese la cédula de la persona:");
+        String documento = validator.validateDocument(reader.nextLine());
+
+        System.out.println("Ingrese el nombre de usuario:");
+        String username = validator.stringValidator("El nombre de usuario", reader.nextLine());
+
+        System.out.println("Ingrese la contraseña:");
+        String password = validator.stringValidator("La contraseña", reader.nextLine());
+
+        System.out.println("Ingrese la edad de la persona:");
+        String edadInput = reader.nextLine();
+        int edad = validator.ageValidator(edadInput);
+
+        return userBuilder.build(nombre, documento, String.valueOf(edad), username, password);
     }
 }

@@ -1,31 +1,41 @@
 package app.domain.service;
 
-import org.springframework.stereotype.Service;
 import app.domain.model.User;
 import app.domain.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
-    public void createUser(User user) throws Exception {
-        if (user == null) {
-            throw new Exception("El usuario no puede ser nulo");
-        }
-
-        if (user.getUsername() == null || user.getUsername().isEmpty()) {
-            throw new Exception("El nombre de usuario no puede estar vacío");
-        }
-
-        userRepository.save(user);
+    public Optional<User> findById(long id) {
+        return userRepository.findById(id);
     }
 
-    public void deleteUser(long id) {
-        userRepository.delete(id);
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public boolean delete(long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

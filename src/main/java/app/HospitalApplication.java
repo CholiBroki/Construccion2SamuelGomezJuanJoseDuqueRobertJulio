@@ -1,4 +1,4 @@
-package Hospital;
+package app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import app.adapter.in.user.CreateRole;
 
-@SpringBootApplication(scanBasePackages = {"Hospital", "app"})
+@SpringBootApplication
 public class HospitalApplication implements CommandLineRunner {
 
     @Autowired
