@@ -25,15 +25,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(AbstractHttpConfigurer::disable) // Deshabilitamos CSRF
+            .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 // Rutas públicas (sin autenticación)
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/setup/**").permitAll() // ⚠️ TEMPORAL para setup
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers("/api/setup/**").permitAll()
                 
-                // Rutas protegidas por rol
+                // Rutas protegidas - requieren autenticación
                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
+                .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "OWNER")
                 
                 // Cualquier otra petición requiere autenticación
                 .anyRequest().authenticated()

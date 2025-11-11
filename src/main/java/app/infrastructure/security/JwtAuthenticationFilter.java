@@ -26,11 +26,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        System.out.println("🔍 Verificando filtro para: " + path);
+        System.out.println("🔍 Verificando filtro para: " + request.getMethod() + " " + path);
         
-        // Permitir todas las rutas de autenticación sin filtro
+        // Permitir rutas públicas sin filtro
         boolean shouldNotFilter = path.startsWith("/api/auth/") || 
-                                  (request.getMethod().equals("POST") && path.equals("/users"));
+                                  path.startsWith("/api/setup/");
         
         System.out.println("   ➡️ Debe saltar filtro: " + shouldNotFilter);
         return shouldNotFilter;
@@ -41,18 +41,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        System.out.println("🔐 Procesando filtro JWT para: " + request.getRequestURI());
+        System.out.println("🔐 Procesando filtro JWT para: " + request.getMethod() + " " + request.getRequestURI());
         
         String token = extractToken(request);
 
         if (token != null) {
-            System.out.println("   📝 Token encontrado: " + token.substring(0, Math.min(20, token.length())) + "...");
+            System.out.println("   📝 Token encontrado (primeros 30 chars): " + token.substring(0, Math.min(30, token.length())) + "...");
             
             if (authenticationPort.validateToken(token)) {
                 String username = authenticationPort.extractUsername(token);
                 String role = authenticationPort.extractRole(token);
                 
-                System.out.println("   ✅ Token válido - Usuario: " + username + " | Role: " + role);
+                System.out.println("   ✅ Token válido");
+                System.out.println("   👤 Usuario: " + username);
+                System.out.println("   🎭 Role: " + role);
 
                 if (role != null && !role.trim().isEmpty()) {
                     String normalized = role.trim().toUpperCase();
@@ -73,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("   ❌ Token inválido o expirado");
             }
         } else {
-            System.out.println("   ⚠️ No se encontró token en la petición");
+            System.out.println("   ⚠️ No se encontró token en el header Authorization");
         }
 
         filterChain.doFilter(request, response);
@@ -81,6 +83,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
-        return (header != null && header.startsWith("Bearer ")) ? header.substring(7) : null;
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
     }
 }

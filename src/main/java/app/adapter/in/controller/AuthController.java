@@ -1,6 +1,5 @@
 package app.adapter.in.controller;
 
-import app.adapter.in.dto.ApiResponse;
 import app.domain.model.auth.AuthCredentials;
 import app.domain.model.auth.TokenResponse;
 import app.application.usecase.LoginUseCase;
@@ -18,19 +17,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthCredentials credentials) {
         try {
-            System.out.println("🔐 Intento de login para usuario: " + credentials.getUsername());
-            
+            System.out.println(" Intento de login para usuario: " + credentials.getUsername());
             TokenResponse token = loginUseCase.login(credentials);
-            
-            System.out.println("✅ Login exitoso para: " + credentials.getUsername());
-            
-            return ResponseEntity.ok(ApiResponse.success("✅ Login exitoso", token));
-            
+            System.out.println("Token generado exitosamente");
+            return ResponseEntity.ok(token);
         } catch (Exception e) {
-            System.err.println("❌ Error en login: " + e.getMessage());
-            return ResponseEntity
-                .badRequest()
-                .body(ApiResponse.error("Error de autenticación", e.getMessage()));
+            System.err.println(" Error en login: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("❌ Error: " + e.getMessage());
         }
     }
 }

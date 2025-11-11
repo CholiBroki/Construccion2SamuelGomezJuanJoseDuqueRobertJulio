@@ -1,70 +1,67 @@
 package app.domain.service;
 
 import app.domain.model.User;
-import app.domain.model.auth.AuthCredentials;
-import app.domain.model.auth.TokenResponse;
-import app.adapter.out.AuthenticationAdapter;
 import app.adapter.out.UserAdapter;
-import app.application.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio de dominio responsable de la autenticación de usuarios.
- */
 @Service
 public class UserService {
 
-    private final AuthenticationAdapter authenticationPort;
-    private final UserAdapter userAdapter;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserAdapter userAdapter;
 
-    // ✅ Inyección por constructor (mejor práctica)
-    public UserService(AuthenticationAdapter authenticationPort,
-                       UserAdapter userAdapter,
-                       PasswordEncoder passwordEncoder) {
-        this.authenticationPort = authenticationPort;
-        this.userAdapter = userAdapter;
-        this.passwordEncoder = passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User save(User user) {
+        // Solo encriptar si la contraseña no está ya encriptada
+        if (!user.getPassword().startsWith("$2a$")) {
+            System.out.println("🔐 Encriptando contraseña para: " + user.getUsername());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            System.out.println("✅ Contraseña ya encriptada para: " + user.getUsername());
+        }
+        
+        User saved = userAdapter.save(user);
+        System.out.println("✅ Usuario guardado: " + saved.getUsername() + " con rol: " + saved.getRole());
+        return saved;
     }
 
-    /**
-     * Autentica un usuario y genera un token JWT con su rol.
-     *
-     * @param credentials credenciales del usuario
-     * @return TokenResponse con el JWT y datos asociados
-     * @throws BusinessException si las credenciales son inválidas
-     */
-    public TokenResponse authenticate(AuthCredentials credentials) throws Exception {
-        // 🔹 Validar que las credenciales no sean nulas
-        if (credentials == null ||
-            credentials.getUsername() == null ||
-            credentials.getPassword() == null) {
-            throw new BusinessException("Credenciales inválidas");
-        }
-
-        // 🔹 Buscar usuario por username
-        Optional<User> userOpt = userAdapter.findByUsername(credentials.getUsername());
-
-        if (userOpt.isEmpty()) {
-            throw new BusinessException("Usuario no encontrado");
-        }
-
-        User user = userOpt.get();
-
-        // 🔹 Validar la contraseña
-        if (!passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
-            throw new BusinessException("Contraseña incorrecta");
-        }
-
-        // 🔹 Generar token con el rol del usuario
-        return authenticationPort.authenticate(credentials, user.getRole().name());
+    public Optional<User> findById(long id) {
+        return userAdapter.findById(id);
     }
 
-	public User save(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Optional<User> findByUsername(String username) {
+        System.out.println("🔍 Buscando usuario: " + username);
+        Optional<User> user = userAdapter.findByUsername(username);
+        if (user.isPresent()) {
+            System.out.println("✅ Usuario encontrado: " + username + " | Role: " + user.get().getRole());
+        } else {
+            System.out.println("❌ Usuario NO encontrado: " + username);
+        }
+        return user;
+    }
+
+    public List<User> findAll() {
+        return userAdapter.findAll();
+    }
+
+    public boolean delete(long id) {
+        Optional<User> user = userAdapter.findById(id);
+        if (user.isPresent()) {
+            userAdapter.deleteById(id);
+            System.out.println("🗑️  Usuario eliminado: " + user.get().getUsername());
+            return true;
+        }
+        return false;
+    }
+
+    public void create(User user) {
+        save(user);
+    }
 }

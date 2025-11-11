@@ -1,11 +1,10 @@
 package app.domain.service;
 
-import app.adapter.out.AuthenticationAdapter;
-import app.adapter.out.UserAdapter;
-import app.application.exceptions.BusinessException;
 import app.domain.model.User;
 import app.domain.model.auth.AuthCredentials;
 import app.domain.model.auth.TokenResponse;
+import app.adapter.out.AuthenticationAdapter;
+import app.application.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,31 +18,42 @@ public class AuthenticationService {
     private AuthenticationAdapter authenticationPort;
 
     @Autowired
-    private UserAdapter userAdapter;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public TokenResponse authenticate(AuthCredentials credentials) throws Exception {
-        if (credentials == null || credentials.getUsername() == null || credentials.getPassword() == null) {
-            throw new BusinessException("Las credenciales no pueden ser nulas");
-        }
-
-        System.out.println("🔍 [AuthenticationService] Buscando usuario: " + credentials.getUsername());
-        Optional<User> userOpt = userAdapter.findByUsername(credentials.getUsername());
-
+        System.out.println("🔐 Iniciando autenticación para: " + credentials.getUsername());
+        
+        // Buscar usuario por username
+        Optional<User> userOpt = userService.findByUsername(credentials.getUsername());
+        
         if (userOpt.isEmpty()) {
+            System.err.println("❌ Usuario no encontrado: " + credentials.getUsername());
             throw new BusinessException("Usuario no encontrado");
         }
-
+        
         User user = userOpt.get();
-
-        System.out.println("🔐 [AuthenticationService] Verificando contraseña para usuario: " + user.getUsername());
-        if (!passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
+        System.out.println("✅ Usuario encontrado: " + user.getUsername());
+        System.out.println("   Role: " + user.getRole());
+        System.out.println("   Password en BD (primeros 20 chars): " + user.getPassword().substring(0, 20) + "...");
+        
+        // Validar contraseña
+        boolean passwordMatches = passwordEncoder.matches(credentials.getPassword(), user.getPassword());
+        System.out.println("   Contraseña ingresada: " + credentials.getPassword());
+        System.out.println("   ¿Contraseña válida?: " + passwordMatches);
+        
+        if (!passwordMatches) {
+            System.err.println("❌ Contraseña incorrecta para: " + credentials.getUsername());
             throw new BusinessException("Contraseña incorrecta");
         }
-
-        System.out.println("✅ [AuthenticationService] Usuario autenticado correctamente, generando token...");
-        return authenticationPort.authenticate(credentials, user.getRole().name());
+        
+        // Generar token con el rol del usuario
+        System.out.println("🎫 Generando token para: " + user.getUsername() + " con rol: " + user.getRole().name());
+        TokenResponse response = authenticationPort.authenticate(credentials, user.getRole().name());
+        System.out.println("✅ Token generado exitosamente");
+        
+        return response;
     }
 }
