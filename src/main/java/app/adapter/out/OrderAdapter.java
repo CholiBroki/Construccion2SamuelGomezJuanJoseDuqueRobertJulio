@@ -10,7 +10,7 @@ import app.domain.repository.OrderRepository;
 import app.domain.valueobject.Id;
 
 @Service
-public class OrderAdapter implements OrderRepository{
+public abstract class OrderAdapter implements OrderRepository{
 
 	@Override
 	public void saveOrder(Order order) {

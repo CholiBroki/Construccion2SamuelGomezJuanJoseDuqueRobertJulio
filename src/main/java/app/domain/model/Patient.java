@@ -1,122 +1,232 @@
 package app.domain.model;
 
-import app.domain.valueobject.*;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "patients")
 public class Patient {
-    private final Id id;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 100)
     private String firstName;
+
+    @Column(nullable = false, length = 100)
     private String lastName;
-    private final DateOfBirth dateOfBirth;
-    private String gender;
+
+    @Column(nullable = false, unique = true, length = 20)
+    private String documentId;
+
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Column(length = 10)
+    private String gender; // MALE, FEMALE, OTHER
+
+    @Column(length = 500)
     private String address;
-    private Email email;
-    private Phone phone;
-    private String medicalRecord;
 
+    @Column(length = 15)
+    private String phone;
 
-    private String emergencyFirstName;
-    private String emergencyLastName;
-    private String emergencyRelation;
-    private Phone emergencyPhone;
+    @Column(length = 100)
+    private String email;
 
-    public Patient(Id id, String firstName, String lastName,
-                   DateOfBirth dateOfBirth, String gender,
-                   String address, Email email, Phone phone,
-                   String medicalRecord,
-                   String emergencyFirstName, String emergencyLastName,
-                   String emergencyRelation, Phone emergencyPhone) {
+    @Column(length = 50)
+    private String bloodType;
 
-        if(id == null) throw new IllegalArgumentException("Id no puede ser null");
-        if(firstName == null || firstName.isBlank()) throw new IllegalArgumentException("Nombre inválido");
-        if(lastName == null || lastName.isBlank()) throw new IllegalArgumentException("Apellido inválido");
-        if(dateOfBirth == null) throw new IllegalArgumentException("Fecha de nacimiento inválida");
-        if(gender == null || gender.isBlank()) throw new IllegalArgumentException("Género inválido");
-        if(address == null || address.isBlank()) throw new IllegalArgumentException("Dirección inválida");
-        if(phone == null) throw new IllegalArgumentException("Teléfono inválido");
-        if(emergencyFirstName == null || emergencyFirstName.isBlank()) throw new IllegalArgumentException("Nombre contacto emergencia inválido");
-        if(emergencyLastName == null || emergencyLastName.isBlank()) throw new IllegalArgumentException("Apellido contacto emergencia inválido");
-        if(emergencyRelation == null || emergencyRelation.isBlank()) throw new IllegalArgumentException("Relación contacto emergencia inválida");
-        if(emergencyPhone == null) throw new IllegalArgumentException("Teléfono contacto emergencia inválido");
+    @Column(length = 1000)
+    private String allergies;
 
-        this.id = id;
+    @Column(length = 1000)
+    private String medicalHistory;
+
+    // Contacto de emergencia
+    @Column(length = 100)
+    private String emergencyContactName;
+
+    @Column(length = 15)
+    private String emergencyContactPhone;
+
+    @Column(length = 50)
+    private String emergencyContactRelation;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    // Constructors
+    public Patient() {}
+
+    public Patient(String firstName, String lastName, String documentId, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.documentId = documentId;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
-        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
         this.phone = phone;
-        this.medicalRecord = medicalRecord;
-
-        this.emergencyFirstName = emergencyFirstName;
-        this.emergencyLastName = emergencyLastName;
-        this.emergencyRelation = emergencyRelation;
-        this.emergencyPhone = emergencyPhone;
     }
 
-
-    public Id getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public DateOfBirth getDateOfBirth() { return dateOfBirth; }
-    public String getGender() { return gender; }
-    public String getAddress() { return address; }
-    public Email getEmail() { return email; }
-    public Phone getPhone() { return phone; }
-    public String getMedicalRecord() { return medicalRecord; }
-    public String getEmergencyFirstName() { return emergencyFirstName; }
-    public String getEmergencyLastName() { return emergencyLastName; }
-    public String getEmergencyRelation() { return emergencyRelation; }
-    public Phone getEmergencyPhone() { return emergencyPhone; }
-
-    // Metodos de negocio
-    public void changeName(String newFirstName, String newLastName) {
-        if (newFirstName == null || newFirstName.isBlank()) throw new IllegalArgumentException("Nombre inválido");
-        if (newLastName == null || newLastName.isBlank()) throw new IllegalArgumentException("Apellido inválido");
-        this.firstName = newFirstName;
-        this.lastName = newLastName;
+    public String getEmail() {
+        return email;
     }
 
-    public void changeAddress(String newAddress) {
-        if (newAddress == null || newAddress.isBlank()) throw new IllegalArgumentException("Dirección inválida");
-        this.address = newAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void changeEmail(Email newEmail) {
-        if (newEmail == null) throw new IllegalArgumentException("Email no puede ser null");
-        this.email = newEmail;
+    public String getBloodType() {
+        return bloodType;
     }
 
-    public void changePhone(Phone newPhone) {
-        if (newPhone == null) throw new IllegalArgumentException("Phone no puede ser null");
-        this.phone = newPhone;
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
     }
 
-    public void updateMedicalRecord(String newRecord) {
-        if (newRecord == null) throw new IllegalArgumentException("Registro médico no puede ser null");
-        this.medicalRecord = newRecord;
+    public String getAllergies() {
+        return allergies;
     }
 
-    public void changeEmergencyContact(String firstName, String lastName, String relation, Phone phone) {
-        if(firstName == null || firstName.isBlank()) throw new IllegalArgumentException("Nombre contacto emergencia inválido");
-        if(lastName == null || lastName.isBlank()) throw new IllegalArgumentException("Apellido contacto emergencia inválido");
-        if(relation == null || relation.isBlank()) throw new IllegalArgumentException("Relación contacto emergencia inválida");
-        if(phone == null) throw new IllegalArgumentException("Teléfono contacto emergencia inválido");
-
-        this.emergencyFirstName = firstName;
-        this.emergencyLastName = lastName;
-        this.emergencyRelation = relation;
-        this.emergencyPhone = phone;
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Patient)) return false;
-        Patient patient = (Patient) o;
-        return id.equals(patient.id);
+    public String getMedicalHistory() {
+        return medicalHistory;
     }
 
-    @Override
-    public int hashCode() { return id.hashCode(); }
+    public void setMedicalHistory(String medicalHistory) {
+        this.medicalHistory = medicalHistory;
+    }
+
+    public String getEmergencyContactName() {
+        return emergencyContactName;
+    }
+
+    public void setEmergencyContactName(String emergencyContactName) {
+        this.emergencyContactName = emergencyContactName;
+    }
+
+    public String getEmergencyContactPhone() {
+        return emergencyContactPhone;
+    }
+
+    public void setEmergencyContactPhone(String emergencyContactPhone) {
+        this.emergencyContactPhone = emergencyContactPhone;
+    }
+
+    public String getEmergencyContactRelation() {
+        return emergencyContactRelation;
+    }
+
+    public void setEmergencyContactRelation(String emergencyContactRelation) {
+        this.emergencyContactRelation = emergencyContactRelation;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Método de utilidad para obtener nombre completo
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    // Método para calcular edad
+    public int getAge() {
+        if (dateOfBirth == null) return 0;
+        return LocalDate.now().getYear() - dateOfBirth.getYear();
+    }
 }

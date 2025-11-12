@@ -13,4 +13,10 @@ public interface OrderRepository {
     public void createOrder(Order order);
 	void deleteOrder(Id orderId);
 	void saveOrder(Order order);
+	void deleteById(String value);
+	Optional<Order> findById(String value);
+	List<Order> findByPatientId(String value);
+	List<Order> findByDoctorId(Long doctorId);
+	List<Order> findByStatus(String status);
+	List<Order> findByOrderType(String orderType);
 }

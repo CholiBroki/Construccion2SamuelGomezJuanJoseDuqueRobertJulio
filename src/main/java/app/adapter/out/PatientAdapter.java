@@ -10,7 +10,7 @@ import app.domain.repository.PatientRepository;
 import app.domain.valueobject.Id;
 
 @Service
-public class PatientAdapter implements  PatientRepository{
+public abstract class PatientAdapter implements  PatientRepository{
 
 	@Override
 	public void createPatient(Patient patient) {
@@ -37,7 +37,8 @@ public class PatientAdapter implements  PatientRepository{
 	}
 
 	@Override
-	public void save(Patient patient) {
+	public <S extends Patient> S save(S patient) {
+		return patient;
 		// TODO Auto-generated method stub
 		
 	}
