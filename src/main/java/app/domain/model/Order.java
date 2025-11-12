@@ -1,32 +1,83 @@
 package app.domain.model;
 
-import app.domain.valueobject.Id;
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "medical_orders")
 public class Order {
-    private final Id id;
-    private final Id patientId;
-    private final String type; // "MEDICAMENTO", "PROCEDIMIENTO", "AYUDA_DIAGNOSTICA"
-    private final String name;
-    private final double cost;
-    private final String details;
-    private final LocalDate date;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Order(Id id, Id patientId, String type, String name, double cost, String details, LocalDate date) {
-        this.id = id;
-        this.patientId = patientId;
-        this.type = type;
-        this.name = name;
-        this.cost = cost;
-        this.details = details;
-        this.date = date;
+    @Column(nullable = false)
+    private Long patientId;
+
+    @Column(nullable = false)
+    private Long doctorId;
+
+    @Column(nullable = false, length = 50)
+    private String orderType; // MEDICATION, PROCEDURE, LAB_TEST, IMAGING
+
+    @Column(nullable = false, length = 500)
+    private String description;
+
+    @Column(length = 20)
+    private String status; // PENDING, COMPLETED, CANCELLED
+
+    @Column(length = 1000)
+    private String instructions;
+
+    @Column
+    private Double cost;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (status == null) status = "PENDING";
     }
 
-    public Id getId() { return id; }
-    public Id getPatientId() { return patientId; }
-    public String getType() { return type; }
-    public String getName() { return name; }
-    public double getCost() { return cost; }
-    public String getDetails() { return details; }
-    public LocalDate getDate() { return date; }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    // Constructor vacío
+    public Order() {}
+
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getPatientId() { return patientId; }
+    public void setPatientId(Long patientId) { this.patientId = patientId; }
+
+    public Long getDoctorId() { return doctorId; }
+    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
+
+    public String getOrderType() { return orderType; }
+    public void setOrderType(String orderType) { this.orderType = orderType; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getInstructions() { return instructions; }
+    public void setInstructions(String instructions) { this.instructions = instructions; }
+
+    public Double getCost() { return cost; }
+    public void setCost(Double cost) { this.cost = cost; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

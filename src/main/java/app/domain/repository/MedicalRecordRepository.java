@@ -1,16 +1,12 @@
 package app.domain.repository;
 
 import app.domain.model.MedicalRecord;
-import app.domain.valueobject.Id;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
-public interface MedicalRecordRepository {
-    
-    List<MedicalRecord> searchMedicalRecord(long id, MedicalRecord searchMedicalRecord);
-    
-    void deleteMedicalRecord(long id, MedicalRecord deleteMedicalRecord);
-    
-    void save(MedicalRecord medicalRecord);
-    
-    void createMedicalRecord(Id createmedicalRecord);
+@Repository
+public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Long> {
+    List<MedicalRecord> findByPatientId(Long patientId);
+    List<MedicalRecord> findByDoctorId(Long doctorId);
 }

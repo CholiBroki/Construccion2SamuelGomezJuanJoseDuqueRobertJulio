@@ -16,5 +16,5 @@ public interface HumanResourcesRepository {
     
     Optional<HumanResources> findById(Long hrId);
     
-    void save(HumanResources member);
+    HumanResources save(HumanResources member);
 }

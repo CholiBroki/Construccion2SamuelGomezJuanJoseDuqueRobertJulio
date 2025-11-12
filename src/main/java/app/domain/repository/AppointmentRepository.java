@@ -1,25 +1,31 @@
 package app.domain.repository;
 
 import app.domain.model.Appointment;
-import app.domain.valueobject.Id;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
-public interface AppointmentRepository {
+@Repository
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     
-    void cancelAppointment(Id appointmentId);
+    // Buscar citas por paciente
+    List<Appointment> findByPatientId(Long patientId);
     
-    List<Appointment> getAppointmentsByPatient(Id patientId);
+    // Buscar citas por doctor
+    List<Appointment> findByDoctorId(Long doctorId);
     
-    void reschedule(Id appointmentId, Appointment updatedAppointment);
+    // Buscar citas por estado
+    List<Appointment> findByStatus(String status);
     
-    void schedule(Appointment appointment);
+    // Buscar citas en un rango de fechas
+    List<Appointment> findByAppointmentDateTimeBetween(LocalDateTime start, LocalDateTime end);
     
-    void save(Appointment appointment);
-    
-    Optional<Appointment> findById(Id appointmentId);
-    
-    List<Appointment> findByPatientId(Id patientId);
-    
-    void delete(Id appointmentId);
+    // Buscar citas de un doctor en una fecha específica
+    List<Appointment> findByDoctorIdAndAppointmentDateTimeBetween(
+        Long doctorId, 
+        LocalDateTime start, 
+        LocalDateTime end
+    );
 }

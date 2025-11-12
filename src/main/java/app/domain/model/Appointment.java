@@ -1,47 +1,135 @@
 package app.domain.model;
 
-import app.domain.valueobject.Id;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "appointments")
 public class Appointment {
-    private final Id id;
-    private final Id patientId;
-    private LocalDateTime dateTime;
-    private String doctor;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private Long patientId;
+
+    @Column(nullable = false)
+    private Long doctorId;
+
+    @Column(nullable = false)
+    private LocalDateTime appointmentDateTime;
+
+    @Column(length = 20)
+    private String status; // SCHEDULED, COMPLETED, CANCELLED
+
+    @Column(length = 500)
+    private String reason;
+
+    @Column(length = 1000)
     private String notes;
 
-    public Appointment(Id id, Id patientId, LocalDateTime dateTime, String doctor, String notes) {
-        this.id = id;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = "SCHEDULED";
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    // Constructors
+    public Appointment() {}
+
+    public Appointment(Long patientId, Long doctorId, LocalDateTime appointmentDateTime, String reason) {
         this.patientId = patientId;
-        this.dateTime = dateTime;
-        this.doctor = doctor;
+        this.doctorId = doctorId;
+        this.appointmentDateTime = appointmentDateTime;
+        this.reason = reason;
+        this.status = "SCHEDULED";
+    }
+
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public LocalDateTime getAppointmentDateTime() {
+        return appointmentDateTime;
+    }
+
+    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
+        this.appointmentDateTime = appointmentDateTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
         this.notes = notes;
     }
 
-    public Id getId() { return id; }
-    public Id getPatientId() { return patientId; }
-    public LocalDateTime getDateTime() { return dateTime; }
-    public String getDoctor() { return doctor; }
-    public String getNotes() { return notes; }
-
-    // Métodos de negocio
-    public void reschedule(LocalDateTime newDateTime) {
-        if (newDateTime == null || newDateTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Fecha inválida para la cita");
-        }
-        this.dateTime = newDateTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void updateDoctor(String newDoctor) {
-        if (newDoctor == null || newDoctor.isBlank()) {
-            throw new IllegalArgumentException("Nombre del doctor inválido");
-        }
-        this.doctor = newDoctor;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void updateNotes(String newNotes) {
-        this.notes = newNotes;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
-
-
