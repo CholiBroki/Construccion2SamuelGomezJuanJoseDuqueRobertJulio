@@ -1,20 +1,41 @@
 package app.domain.service;
 
+import app.adapter.out.DoctorAdapter;
+import app.domain.model.MedicalRecord;
+import app.domain.model.Patient;
+import app.domain.valueobject.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-import app.domain.model.Patient;
-import app.domain.repository.DoctorRepository;
-import app.domain.repository.MedicalRecordRepository;
-import app.domain.valueobject.Id;
-
+@Service
 public class DoctorService {
-	private final DoctorRepository doctorRepository;
+    
+    @Autowired
+    private DoctorAdapter doctorAdapter;
 
-	public DoctorService(DoctorRepository doctorRepository) {
-		this.doctorRepository = doctorRepository;
-	}
-	public void deleteMedicalRecord(Id deleteMedicalRecord) {
-		MedicalRecordRepository medicalRecordRepository = null;
-	}
+    public void modifyMedicalRecord(long id, MedicalRecord medicalRecord) {
+        doctorAdapter.modifyMedicalRecord(id, medicalRecord);
+    }
 
+    public void deleteMedicalRecord(long id, MedicalRecord medicalRecord) {
+        doctorAdapter.deleteMedicalRecord(id, medicalRecord);
+    }
+
+    public List<Patient> findAllPatient() {
+        return doctorAdapter.findAllPatient();
+    }
+
+    public List<Patient> searchPatientById(Id patientId) {
+        return doctorAdapter.searchPatientById(patientId);
+    }
+
+    public List<MedicalRecord> searchMedicalRecord(Id searchMedicalRecord) {
+        return doctorAdapter.searchMedicalRecord(searchMedicalRecord);
+    }
+
+    public void deletePatient(Id deletePatient) {
+        doctorAdapter.deletePatient(deletePatient);
+    }
 }

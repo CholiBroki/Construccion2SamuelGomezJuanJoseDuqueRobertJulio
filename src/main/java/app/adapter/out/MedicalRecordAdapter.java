@@ -1,52 +1,31 @@
 package app.adapter.out;
 
-import java.util.List;
-
-
+import app.domain.model.MedicalRecord;
+import app.domain.valueobject.Id;
 import org.springframework.stereotype.Service;
 
-import app.domain.model.Doctor;
-import app.domain.model.MedicalRecord;
-import app.domain.repository.MedicalRecordRepository;
-import app.domain.service.DoctorService;
-import app.domain.valueobject.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class MedicalRecordAdapter implements MedicalRecordRepository {
+public class MedicalRecordAdapter {
 
-	@Override
-	public List<MedicalRecord> SearchMedicalRecord(long id, MedicalRecord searchMedicalRecord) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Implementación temporal en memoria
+    // TODO: Crear MedicalRecordJpaRepository cuando lo necesites
 
-	@Override
-	public void DeleteMedicalRecord(long id, MedicalRecord DeleteMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
+    public List<MedicalRecord> searchMedicalRecord(long id, MedicalRecord searchMedicalRecord) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public void save(MedicalRecord medicalRecord, Doctor doctor) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void deleteMedicalRecord(long id, MedicalRecord deleteMedicalRecord) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void save(DoctorService modifyMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void save(MedicalRecord medicalRecord) {
+        // Implementación temporal
+    }
 
-	@Override
-	public <SearchMedicalRecordByid> void save(SearchMedicalRecordByid addMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void save(Id createmedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
-
+    public void createMedicalRecord(Id createmedicalRecord) {
+        // Implementación temporal
+    }
 }

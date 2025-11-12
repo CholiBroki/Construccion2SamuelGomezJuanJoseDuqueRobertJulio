@@ -1,38 +1,36 @@
 package app.application.usecase;
 
-import java.util.List;
+import app.adapter.out.AppointmentAdapter;
+import app.domain.model.Appointment;
+import app.domain.valueobject.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import app.domain.model.Appointment;
-import app.domain.repository.AppointmentRepository;
-import app.domain.valueobject.Id;
+
+import java.util.List;
 
 @Service
 public class AppoimentUsecase {
 
     @Autowired
-    private AppointmentRepository appointmentRepository;
+    private AppointmentAdapter appointmentAdapter;
 
-    public void cancelApoinment(Id appointmentId) {
-        appointmentRepository = null;
-
+    public void cancelAppointment(Id appointmentId) {
+        appointmentAdapter.cancelAppointment(appointmentId);
     }
 
     public void deleteAppointment(Id appointmentId) {
-        appointmentRepository.delete(appointmentId);
+        appointmentAdapter.delete(appointmentId);
     }
 
     public List<Appointment> getAppointmentsByPatient(Id patientId) {
-        return appointmentRepository.findByPatientId(patientId);
+        return appointmentAdapter.findByPatientId(patientId);
     }
 
     public void reschedule(Id appointmentId, Appointment updatedAppointment) {
-        appointmentRepository.save(updatedAppointment);
-
+        appointmentAdapter.save(updatedAppointment);
     }
 
     public void schedule(Appointment appointment) {
-        appointmentRepository.save(appointment);
+        appointmentAdapter.save(appointment);
     }
-
 }

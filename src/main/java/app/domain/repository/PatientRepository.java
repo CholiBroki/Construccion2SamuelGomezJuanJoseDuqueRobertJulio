@@ -1,8 +1,6 @@
 package app.domain.repository;
 
 import app.domain.model.Patient;
-import app.domain.valueobject.Id;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,16 +35,4 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     
     // Verificar si existe por email
     boolean existsByEmail(String email);
-
-	void createPatient(Patient patient);
-
-	void deletePatient(Id patientId);
-
-	List<Patient> findPatientById(Id patientId);
-
-	void updatePatient(Id patientId, Patient updatedPatient);
-
-	void delete(Id patientId);
-
-	Optional<Patient> findById(Id patientId);
 }

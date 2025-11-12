@@ -1,39 +1,36 @@
 package app.adapter.out;
 
+import app.domain.model.HumanResources;
+import app.domain.valueobject.Id;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import app.domain.model.HumanResources;
-import app.domain.repository.HumanResourcesRepository;
-import app.domain.valueobject.Id;
-
 @Service
-public class HumanResourcesAdapter implements HumanResourcesRepository{
+public class HumanResourcesAdapter {
 
-	@Override
-	public List<HumanResources> updateEmployee(HumanResourcesRepository updateEmployee) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Implementación temporal en memoria
+    // TODO: Crear HumanResourcesJpaRepository cuando lo necesites
 
-	@Override
-	public void createEmployee(HumanResourcesRepository createEmployee) {
-		// TODO Auto-generated method stub
-		
-	}
+    public List<HumanResources> updateEmployee(HumanResources updateEmployee) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public void deleteEmployee(Id deleteEmployee) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void createEmployee(HumanResources createEmployee) {
+        // Implementación temporal
+    }
 
-	@Override
-	public Optional<HumanResources> findById(Long hrId) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+    public void deleteEmployee(Id deleteEmployee) {
+        // Implementación temporal
+    }
 
+    public Optional<HumanResources> findById(Long hrId) {
+        return Optional.empty();
+    }
+
+    public void save(HumanResources member) {
+        // Implementación temporal
+    }
 }

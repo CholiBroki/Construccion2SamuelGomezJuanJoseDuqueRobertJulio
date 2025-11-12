@@ -1,34 +1,33 @@
 package app.domain.service;
 
+import app.adapter.out.AppointmentAdapter;
 import app.domain.model.Appointment;
-import app.domain.repository.AppointmentRepository;
 import app.domain.valueobject.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+@Service
 public class AppointmentService {
-    private final AppointmentRepository appointmentRepository;
-
-    public AppointmentService(AppointmentRepository appointmentRepository) {
-        this.appointmentRepository = appointmentRepository;
-    }
+    
+    @Autowired
+    private AppointmentAdapter appointmentAdapter;
 
     public void scheduleAppointment(Appointment appointment) {
-        appointmentRepository.save(appointment);
+        appointmentAdapter.save(appointment);
     }
 
     public void rescheduleAppointment(Id appointmentId, Appointment updatedAppointment) {
-        Optional<Appointment> existing = appointmentRepository.findById(appointmentId);
+        Optional<Appointment> existing = appointmentAdapter.findById(appointmentId);
         if (existing.isPresent()) {
             Appointment appointment = existing.get();
             appointment.reschedule(updatedAppointment.getDateTime());
             appointment.updateDoctor(updatedAppointment.getDoctor());
             appointment.updateNotes(updatedAppointment.getNotes());
-            appointmentRepository.save(appointment);
+            appointmentAdapter.save(appointment);
         } else {
             throw new IllegalArgumentException("Cita no encontrada con id: " + appointmentId.getValue());
         }
     }
-
 }

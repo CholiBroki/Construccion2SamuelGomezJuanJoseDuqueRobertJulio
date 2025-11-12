@@ -1,66 +1,60 @@
 package app.adapter.out;
 
+import app.domain.model.Patient;
+import app.domain.repository.PatientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import app.domain.model.Patient;
-import app.domain.repository.PatientRepository;
-import app.domain.valueobject.Id;
-
 @Service
-public abstract class PatientAdapter implements  PatientRepository{
+public class PatientAdapter {
 
-	@Override
-	public void createPatient(Patient patient) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Autowired
+    private PatientRepository patientRepository;
 
-	@Override
-	public void deletePatient(Id patientId) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Patient save(Patient patient) {
+        return patientRepository.save(patient);
+    }
 
-	@Override
-	public List<Patient> findPatientById(Id patientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void deleteById(Long id) {
+        patientRepository.deleteById(id);
+    }
 
-	@Override
-	public void updatePatient(Id patientId, Patient updatedPatient) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Optional<Patient> findById(Long id) {
+        return patientRepository.findById(id);
+    }
 
-	@Override
-	public <S extends Patient> S save(S patient) {
-		return patient;
-		// TODO Auto-generated method stub
-		
-	}
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
+    }
 
-	@Override
-	public void delete(Id patientId) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Optional<Patient> findByDocumentId(String documentId) {
+        return patientRepository.findByDocumentId(documentId);
+    }
 
-	@Override
-	public Optional<Patient> findById(Id patientId) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+    public List<Patient> searchByName(String name) {
+        return patientRepository.searchByName(name);
+    }
 
-	@Override
-	public List<Patient> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Patient> findByBloodType(String bloodType) {
+        return patientRepository.findByBloodType(bloodType);
+    }
 
+    public List<Patient> findByGender(String gender) {
+        return patientRepository.findByGender(gender);
+    }
 
+    public boolean existsByDocumentId(String documentId) {
+        return patientRepository.existsByDocumentId(documentId);
+    }
 
+    public boolean existsByEmail(String email) {
+        return patientRepository.existsByEmail(email);
+    }
+
+    public Optional<Patient> findByEmail(String email) {
+        return patientRepository.findByEmail(email);
+    }
 }

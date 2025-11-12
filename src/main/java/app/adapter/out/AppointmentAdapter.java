@@ -1,63 +1,48 @@
 package app.adapter.out;
 
+import app.domain.model.Appointment;
+import app.domain.valueobject.Id;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+@Service
+public class AppointmentAdapter {
 
-import app.domain.model.Appointment;
-import app.domain.repository.AppointmentRepository;
-import app.domain.valueobject.Id;
+    // Implementación temporal en memoria
+    // TODO: Crear AppointmentJpaRepository cuando lo necesites
 
-@Service					
-public class AppointmentAdapter implements AppointmentRepository {
+    public void cancelAppointment(Id appointmentId) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void cancelApoinment(Id appointmentId) {
-		// TODO Auto-generated method stub
-		
-	}
+    public List<Appointment> getAppointmentsByPatient(Id patientId) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public List<Appointment> getAppointmentsByPatient(Id patientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void reschedule(Id appointmentId, Appointment updatedAppointment) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void reschedule(Id appointmentId, Appointment updatedAppointment) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void schedule(Appointment appointment) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void schedule(Appointment appointment) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void save(Appointment appointment) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void save(Appointment appointment) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Optional<Appointment> findById(Id appointmentId) {
+        return Optional.empty();
+    }
 
-	@Override
-	public Optional<Appointment> findById(Id appointmentId) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+    public List<Appointment> findByPatientId(Id patientId) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public List<Appointment> findByPatientId(Id patientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Id appointmentId) {
-		// TODO Auto-generated method stub
-		
-	}
-
+    public void delete(Id appointmentId) {
+        // Implementación temporal
+    }
 }

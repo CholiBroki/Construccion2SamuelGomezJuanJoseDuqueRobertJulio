@@ -1,68 +1,40 @@
 package app.adapter.out;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import app.domain.model.MedicalRecord;
 import app.domain.model.Patient;
-import app.domain.repository.DoctorRepository;
-import app.domain.service.DoctorService;
 import app.domain.valueobject.Id;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class DoctorAdapter implements DoctorRepository{
+public class DoctorAdapter {
 
-	@Override
-	public void modifyMedicalRecord(long id, DoctorService modifyMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
+    // Implementación temporal en memoria
+    // TODO: Crear DoctorJpaRepository cuando lo necesites
 
-	
+    public void modifyMedicalRecord(long id, MedicalRecord modifyMedicalRecord) {
+        // Implementación temporal
+    }
 
-	@Override
-	public List<Patient> findAllPatient(DoctorService findPatients) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void deleteMedicalRecord(long id, MedicalRecord deleteMedicalRecord) {
+        // Implementación temporal
+    }
 
-	@Override
-	public List<Patient> searchPatientById(DoctorService searchPatient) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Patient> findAllPatient() {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public List<MedicalRecord> searchMedicalRecord(Id searchMedicalRecord) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Patient> searchPatientById(Id patientId) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public void deletePatient(Id deletePatient) {
-		// TODO Auto-generated method stub
-		
-	}
+    public List<MedicalRecord> searchMedicalRecord(Id searchMedicalRecord) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public void modifyMedicalRecord1(long id, DoctorService modifyMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteMedicalRecord1(long id, DoctorService deleteMedicalRecord) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Patient> findAllPatient1(DoctorService findPatients) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
+    public void deletePatient(Id deletePatient) {
+        // Implementación temporal
+    }
 }

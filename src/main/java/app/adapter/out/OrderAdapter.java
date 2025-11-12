@@ -1,59 +1,36 @@
 package app.adapter.out;
 
+import app.domain.model.Order;
+import app.domain.valueobject.Id;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import app.domain.model.Order;
-import app.domain.repository.OrderRepository;
-import app.domain.valueobject.Id;
-
 @Service
-public abstract class OrderAdapter implements OrderRepository{
+public class OrderAdapter {
 
-	@Override
-	public void saveOrder(Order order) {
-		// TODO Auto-generated method stub
-		
-	}
+    // Implementación temporal en memoria
+    // TODO: Crear OrderJpaRepository cuando lo necesites
+    
+    public void save(Order order) {
+        // Implementación temporal
+    }
 
-	@Override
-	public void deleteOrder(Id orderId) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void delete(Id orderId) {
+        // Implementación temporal
+    }
 
-	@Override
-	public Optional<Order> findById(Id orderId) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+    public Optional<Order> findById(Id orderId) {
+        return Optional.empty();
+    }
 
-	@Override
-	public List<Order> findByPatientId(Id patientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Order> findByPatientId(Id patientId) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public void createOrder(Order order) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void save(Order order) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Id orderId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
+    public void createOrder(Order order) {
+        save(order);
+    }
 }

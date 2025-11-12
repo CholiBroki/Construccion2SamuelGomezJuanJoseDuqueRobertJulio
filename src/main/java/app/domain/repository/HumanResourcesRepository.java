@@ -7,11 +7,14 @@ import java.util.Optional;
 import java.util.List;
 
 public interface HumanResourcesRepository {
-	public List<HumanResources> updateEmployee(HumanResourcesRepository updateEmployee);
-	public void createEmployee(HumanResourcesRepository createEmployee);
-	public void deleteEmployee(Id deleteEmployee);
-	static void save(HumanResourcesRepository createEmployee) {}
-	public Optional<HumanResources> findById(Long hrId);
-	public static void save(HumanResources member) {}
+    
+    List<HumanResources> updateEmployee(HumanResources updateEmployee);
+    
+    void createEmployee(HumanResources createEmployee);
+    
+    void deleteEmployee(Id deleteEmployee);
+    
+    Optional<HumanResources> findById(Long hrId);
+    
+    void save(HumanResources member);
 }
-
